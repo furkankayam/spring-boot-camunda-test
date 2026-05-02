@@ -4,15 +4,15 @@
 
 ```mermaid
 flowchart LR
-    A[Sıfırlama / Başlatma İsteği] -->|GET /approveloanrequest/{amount}| B[LoanApprovalController]
-    B -->|processKey=LoanApprovalProcess + amount| C[Camunda Process Engine]
-    C -->|amount < 25000| D[LoanApprovalService]
-    C -->|amount >= 25000| E[Manager Approval User Task]
-    E -->|approved == true| D
-    E -->|approved == false veya 10 sn timeout| F[LoanRejectService]
-    D --> G[CompleteRequestService]
+    A["İstek Başlatma (amount)"] -->|GET /approveloanrequest| B["LoanApprovalController"]
+    B -->|processKey=LoanApprovalProcess| C["Camunda Process Engine"]
+    C -->|amount < 25000| D["LoanApprovalService"]
+    C -->|amount >= 25000| E["Manager Approval Task"]
+    E -->|approved true| D
+    E -->|approved false veya timeout| F["LoanRejectService"]
+    D --> G["CompleteRequestService"]
     F --> G
-    G --> H[Process End]
+    G --> H["Process End"]
 ```
 
 ![](./images/image.png)
